@@ -18,6 +18,6 @@ gameServer.define("game_room", GameRoom).filterBy(["roomId"]);
 const PORT = Number(process.env.PORT) || 2567;
 
 gameServer.listen(PORT).then(() => {
-  console.log(`✅ Colyseus server listening on port ${PORT}`);
-  console.log(`🎮 Available at: http://localhost:${PORT}`);
+  console.log(`Colyseus server listening on port ${PORT}`);
+  console.log(`Available at: http://localhost:${PORT}`);
 });
