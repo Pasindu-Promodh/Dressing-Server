@@ -29,7 +29,28 @@ export class GameRoom extends Room<GameState> {
         player.y = message.y;
         player.z = message.z;
         player.rotY = message.rotY;
+        player.speed = message.speed
       }
+    });
+
+    this.onMessage("change_hair", (client, next: boolean) => {
+      const player = this.state.players.get(client.sessionId);
+      if (!player) return;
+
+      const maxHair = 8; // keep server authoritative
+      player.hairIndex = next
+        ? (player.hairIndex + 1) % maxHair
+        : (player.hairIndex - 1 + maxHair) % maxHair;
+    });
+
+    this.onMessage("change_outfit", (client, next: boolean) => {
+      const player = this.state.players.get(client.sessionId);
+      if (!player) return;
+
+      const maxOutfit = 4;
+      player.outfitIndex = next
+        ? (player.outfitIndex + 1) % maxOutfit
+        : (player.outfitIndex - 1 + maxOutfit) % maxOutfit;
     });
 
     // Update loop (optional, for game logic)
@@ -72,8 +93,7 @@ export class GameRoom extends Room<GameState> {
     RoomRegistry.removeRoom(this.roomId);
   }
 
-  update(deltaTime: number) {
-  }
+  update(deltaTime: number) {}
 
   generateRoomId(): string {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
